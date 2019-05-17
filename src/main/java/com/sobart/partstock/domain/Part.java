@@ -7,17 +7,19 @@ public class Part {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     private String name;
 
     private boolean need;
 
-    private long amount;
+    private Long amount;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User owner;
+
+    private String filename;
 
     public Part() {
     }
@@ -41,11 +43,11 @@ public class Part {
         this.owner = owner;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -65,11 +67,19 @@ public class Part {
         this.need = need;
     }
 
-    public long getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(long amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }
