@@ -69,6 +69,12 @@
                 <div class="card-footer text-muted">
                     ${part.ownerName}
                 </div>
+                <div>
+                    <a class="btn btn-primary" href="parts/partEdit?partId=${part.id}">Edit</a>
+                </div>
+                <div>
+                    <a class="btn btn-danger" href="parts/partDelete?partId=${part.id}">Delete</a>
+                </div>
             </div>
         <#else >
             <div>No parts</div>

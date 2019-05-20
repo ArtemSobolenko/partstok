@@ -10,4 +10,7 @@ public interface PartRepository extends CrudRepository<Part, Long> {
     Page<Part> findByNeed(boolean value, Pageable pageable);
 
     Page<Part> findAll(Pageable pageable);
+
+    Part findById(long id);
+
 }

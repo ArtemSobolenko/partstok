@@ -1,7 +1,6 @@
 package com.sobart.partstock.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Part {
