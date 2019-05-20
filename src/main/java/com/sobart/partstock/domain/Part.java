@@ -1,19 +1,22 @@
 package com.sobart.partstock.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Part {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+  //  @NotBlank(message = "You need to input name")
     private String name;
+  //  @NotBlank(message = "You need to input amount")
+    private Long amount;
 
     private boolean need;
 
-    private Long amount;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -31,7 +34,7 @@ public class Part {
         this.owner = user;
     }
 
-    public String getOwnerName(){
+    public String getOwnerName() {
         return owner != null ? owner.getUsername() : "none";
     }
 

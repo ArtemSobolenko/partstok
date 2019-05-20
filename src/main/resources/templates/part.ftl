@@ -1,7 +1,7 @@
 <#import "parts/common.ftl" as c>
+<#import "parts/pager.ftl" as p>
 
 <@c.page>
-
     <form method="get" action="/part">
         <div class="custom-control custom-radio custom-control-inline">
             <input class="custom-control-input" type="radio" name="filter" id="Radios1" value="true">
@@ -26,7 +26,14 @@
             <form method="post" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                 <div class="form-group">
-                    <input class="form-control col-sm-5" type="text" name="name" placeholder="Наименование детали">
+                    <input class="form-control col-sm-5 ${(textError??)?string('is-invalid', '')}" type="text"
+                           value="<#if part??>${part.name}</#if>"
+                           name="name" placeholder="Наименование детали">
+                    <#if textError??>
+                        <div class="invalid-feedback">
+                            ${textError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
                     <input class="form-control col-sm-2" type="text" name="amount" placeholder="Количество">
@@ -44,8 +51,9 @@
             </form>
         </div>
     </div>
+    <@p.pager url page/>
     <div class="card-columns">
-        <#list parts as part>
+        <#list page.content as part>
             <div class="card my-3">
                 <div>
                     <#if part.filename??>
@@ -66,4 +74,5 @@
             <div>No parts</div>
         </#list>
     </div>
+    <@p.pager url page/>
 </@c.page>
