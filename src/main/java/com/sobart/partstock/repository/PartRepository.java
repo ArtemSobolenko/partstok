@@ -13,4 +13,6 @@ public interface PartRepository extends CrudRepository<Part, Long> {
 
     Part findById(long id);
 
+    Page<Part> findByNameIsContaining(String name, Pageable pageable);
+
 }

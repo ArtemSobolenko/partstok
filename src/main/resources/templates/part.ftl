@@ -1,5 +1,6 @@
 <#import "parts/common.ftl" as c>
 <#import "parts/pager.ftl" as p>
+<#include "parts/security.ftl">
 
 <@c.page>
     <form method="get" action="/part">
@@ -17,28 +18,40 @@
         </div>
         <button class="btn btn-primary mb-2" type="submit">Фильтровать</button>
     </form>
+    <div>
+        <form method="get" action="search">
+<#--            <input type="hidden" name="_csrf" value="${_csrf.token}">-->
+            <input class="form-control col-sm-2 mb-2" type="text" name="search" placeholder="поиск">
+            <button class="btn btn-primary mb-2" type="submit">Поиск</button>
+        </form>
+    </div>
     <a class="btn btn-primary mb-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
        aria-controls="collapseExample">
         Add new part
     </a>
-    <div class="collapse" id="collapseExample">
+    <div class="collapse <#if part??>show</#if>" id="collapseExample">
         <div class="form-group mt-2">
             <form method="post" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                 <div class="form-group">
-                    <input class="form-control col-sm-5 ${(textError??)?string('is-invalid', '')}" type="text"
+                    <input class="form-control col-sm-5 ${(nameError??)?string('is-invalid', '')}" type="text"
                            value="<#if part??>${part.name}</#if>"
                            name="name" placeholder="Наименование детали">
-                    <#if textError??>
+                    <#if nameError??>
                         <div class="invalid-feedback">
-                            ${textError}
+                            ${nameError}
                         </div>
                     </#if>
                 </div>
                 <div class="form-group">
-                    <input class="form-control col-sm-2" type="text" name="amount" placeholder="Количество">
+                    <input class="form-control col-sm-2 ${(amountError??)?string('is-invalid', '')}" type="text"
+                           name="amount" placeholder="Количество">
+                    <#if amountError??>
+                        <div class="invalid-feedback">
+                            ${amountError}
+                        </div>
+                    </#if>
                 </div>
-                <#--                <input type="checkbox" name="need"><span>Необходимость</span>-->
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="customCheck1" name="need">
                     <label class="custom-control-label" for="customCheck1">Необходимость</label>
@@ -69,12 +82,15 @@
                 <div class="card-footer text-muted">
                     ${part.ownerName}
                 </div>
-                <div>
-                    <a class="btn btn-primary" href="parts/partEdit?partId=${part.id}">Edit</a>
-                </div>
-                <div>
-                    <a class="btn btn-danger" href="parts/partDelete?partId=${part.id}">Delete</a>
-                </div>
+                <#if isAdmin>
+                    <div>
+                        <a class="btn btn-primary" href="parts/partEdit?partId=${part.id}">Edit</a>
+                    </div>
+
+                    <div>
+                        <a class="btn btn-danger" href="parts/partDelete?partId=${part.id}">Delete</a>
+                    </div>
+                </#if>
             </div>
         <#else >
             <div>No parts</div>

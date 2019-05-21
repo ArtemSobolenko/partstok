@@ -1,6 +1,8 @@
 package com.sobart.partstock.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Part {
@@ -9,9 +11,10 @@ public class Part {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-  //  @NotBlank(message = "You need to input name")
+    @NotBlank(message = "You need to input name")
     private String name;
-  //  @NotBlank(message = "You need to input amount")
+
+    @NotNull(message = "You need to input amount")
     private Long amount;
 
     private boolean need;

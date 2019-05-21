@@ -8,14 +8,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -60,30 +63,54 @@ public class PartController {
     @PostMapping("/part")
     public String add(
             @AuthenticationPrincipal User user,
-            @RequestParam String name,
-            @RequestParam(value = "need", required = false) boolean need,
-            @RequestParam String amount,
+            @Valid Part part,
 
-            Map<String, Object> model,
+            BindingResult bindingResult,
+
+            @RequestParam(required = false, defaultValue = "all") String filter,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable,
+
+            Model model,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
 
+        part.setOwner(user);
 
-        Part part = new Part(name, need, Long.parseLong(amount), user);
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("part", part);
+
+        } else {
+            fileAdd(file, part);
+
+            model.addAttribute("part", null);
+
+            partRepository.save(part);
+        }
 
 
-        fileAdd(file, part);
+        Page<Part> page;
 
-        partRepository.save(part);
+        if (filter.equals("all")) {
+            page = partRepository.findAll(pageable);
+        } else {
+            page = partRepository.findByNeed(Boolean.parseBoolean(filter), pageable);
+        }
+
+        model.addAttribute("page", page);
 
         Iterable<Part> parts = partRepository.findAll();
 
-        model.put("parts", parts);
+        model.addAttribute("url", "/part");
+        model.addAttribute("parts", parts);
 
         return "part";
     }
 
     @GetMapping("/parts/partEdit")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String editPart() {
         return "/parts/partEdit";
     }
@@ -94,7 +121,6 @@ public class PartController {
             @RequestParam String name,
             @RequestParam(value = "need", required = false) boolean need,
             @RequestParam String amount,
-            Map<String, Object> model,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
         System.out.println("Post");
@@ -108,9 +134,23 @@ public class PartController {
     }
 
     @GetMapping("/parts/partDelete")
-    public String delete(@RequestParam String partId){
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String delete(@RequestParam String partId) {
         partRepository.delete(partRepository.findById(Long.parseLong(partId)));
         return "redirect:/part";
+    }
+
+    @GetMapping("search")
+    public String search(@RequestParam String search,
+                         @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable,
+                         Model model) {
+        Page<Part> page;
+
+        page = partRepository.findByNameIsContaining(search.trim(), pageable);
+
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/part");
+        return "part";
     }
 
     private void fileAdd(@RequestParam("file") MultipartFile file, Part part) throws IOException {
