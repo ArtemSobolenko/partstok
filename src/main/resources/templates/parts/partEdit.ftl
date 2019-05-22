@@ -24,6 +24,9 @@
                 <div class="form-group">
                     <input class="form-control col-sm-2" type="text" name="amount" placeholder="Количество">
                 </div>
+                <div class="form-group">
+                    <input class="form-control col-sm-2" type="text" name="price" placeholder="price">
+                </div>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="customCheck1" name="need">
                     <label class="custom-control-label" for="customCheck1">Необходимость</label>

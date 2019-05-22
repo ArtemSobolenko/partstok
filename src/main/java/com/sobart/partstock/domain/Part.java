@@ -3,6 +3,7 @@ package com.sobart.partstock.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Entity
 public class Part {
@@ -19,6 +20,10 @@ public class Part {
 
     private boolean need;
 
+   // @NotNull(message = "You need to input price")
+    private BigDecimal price;
+
+   // private String type;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -87,4 +92,20 @@ public class Part {
     public void setFilename(String filename) {
         this.filename = filename;
     }
+
+    public Double getPrice() {
+        return price.doubleValue();
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+//    public String getType() {
+//        return type;
+//    }
+//
+//    public void setType(String type) {
+//        this.type = type;
+//    }
 }

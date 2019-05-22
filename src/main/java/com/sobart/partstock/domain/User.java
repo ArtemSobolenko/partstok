@@ -28,11 +28,17 @@ public class User implements UserDetails {
 
     private String activationCode;
 
+    private Byte discount;
+
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    public User() {
+        this.discount = 0;
+    }
 
     public boolean isAdmin(){
         return roles.contains(Role.ADMIN);
@@ -117,5 +123,13 @@ public class User implements UserDetails {
 
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
+    }
+
+    public Byte getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Byte discount) {
+        this.discount = discount;
     }
 }

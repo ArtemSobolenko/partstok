@@ -6,11 +6,11 @@
     <form method="get" action="/part">
         <div class="custom-control custom-radio custom-control-inline">
             <input class="custom-control-input" type="radio" name="filter" id="Radios1" value="true">
-            <label class="custom-control-label" for="Radios1">Надо</label>
+            <label class="custom-control-label" for="Radios1">Обязательно для зборки</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline">
             <input class="custom-control-input" type="radio" name="filter" id="Radios2" value="false">
-            <label class="custom-control-label" for="Radios2">Не надо</label>
+            <label class="custom-control-label" for="Radios2">Небязательно для зборки</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline">
             <input class="custom-control-input" type="radio" name="filter" id="Radios3" value="all">
@@ -20,7 +20,7 @@
     </form>
     <div>
         <form method="get" action="search">
-<#--            <input type="hidden" name="_csrf" value="${_csrf.token}">-->
+            <#--            <input type="hidden" name="_csrf" value="${_csrf.token}">-->
             <input class="form-control col-sm-2 mb-2" type="text" name="search" placeholder="поиск">
             <button class="btn btn-primary mb-2" type="submit">Поиск</button>
         </form>
@@ -52,9 +52,18 @@
                         </div>
                     </#if>
                 </div>
+                <div class="form-group">
+                    <input class="form-control col-sm-2 ${(priceError??)?string('is-invalid', '')}" type="text"
+                           name="price" placeholder="price">
+                    <#if priceError??>
+                        <div class="invalid-feedback">
+                            ${priceError}
+                        </div>
+                    </#if>
+                </div>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="customCheck1" name="need">
-                    <label class="custom-control-label" for="customCheck1">Необходимость</label>
+                    <label class="custom-control-label" for="customCheck1">Необходимость для зборки</label>
                 </div>
                 <div class="custom-file">
                     <input class="custom-file-input" type="file" name="file" id="customFile">
@@ -74,10 +83,13 @@
                     </#if>
                 </div>
                 <div class="m-2">
-                    <span>${part.id}</span>
-                    <span>${part.name}</span>
-                    <span>${part.need?string("yes", "no")}</span>
-                    <span>${part.amount}</span>
+                    <span>Номер: ${part.id}</span><br>
+                    <span>Наименование: ${part.name}</span><br>
+                    <span>Необходимость для сборки: ${part.need?string("Да", "Нет")}</span><br>
+                    <span>Количество: ${part.amount}</span><br>
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Disabled tooltip">
+                        <button class="btn btn-primary my-3" style="pointer-events: none;" type="button" disabled>Price: ${part.price-(part.price*user.discount)/100}$</button>
+                    </span>
                 </div>
                 <div class="card-footer text-muted">
                     ${part.ownerName}

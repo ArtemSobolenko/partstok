@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.UUID;
 
@@ -121,13 +122,15 @@ public class PartController {
             @RequestParam String name,
             @RequestParam(value = "need", required = false) boolean need,
             @RequestParam String amount,
+            @RequestParam String price,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        System.out.println("Post");
         Part part = partRepository.findById(Long.parseLong(partId));
         part.setName(name);
         part.setNeed(need);
         part.setAmount(Long.parseLong(amount));
+        double d = Double.valueOf(price);
+        part.setPrice(new BigDecimal(d));
         fileAdd(file, part);
         partRepository.save(part);
         return "redirect:/part";
