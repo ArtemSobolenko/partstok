@@ -39,9 +39,9 @@ public class UserController {
         return "userEdit";
     }
 
-    @GetMapping("/parts/deleteUser")
-    public String userDelete(@RequestParam String userId) {
-        userRepository.delete(userRepository.findById(Long.parseLong(userId)));
+    @GetMapping("/deleteUser/{user}")
+    public String userDelete(@PathVariable User user) {
+        userRepository.delete(user);
         return "redirect:/user";
     }
 
