@@ -20,7 +20,7 @@ public class Part {
 
     private boolean need;
 
-   // @NotNull(message = "You need to input price")
+    @NotNull(message = "You need to input price")
     private BigDecimal price;
 
    // private String type;

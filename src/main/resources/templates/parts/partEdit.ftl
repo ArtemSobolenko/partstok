@@ -22,10 +22,22 @@
                     </#if>
                 </div>
                 <div class="form-group">
-                    <input class="form-control col-sm-2" type="text" name="amount" placeholder="Количество">
+                    <input class="form-control col-sm-2 ${(textError??)?string('is-invalid', '')}" type="text"
+                           name="amount" placeholder="Количество">
+                    <#if textError??>
+                        <div class="invalid-feedback">
+                            ${textError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
-                    <input class="form-control col-sm-2" type="text" name="price" placeholder="price">
+                    <input class="form-control col-sm-2 ${(textError??)?string('is-invalid', '')}" type="text"
+                           name="price" placeholder="price">
+                    <#if textError??>
+                        <div class="invalid-feedback">
+                            ${textError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="customCheck1" name="need">

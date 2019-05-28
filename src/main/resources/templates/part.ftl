@@ -25,6 +25,7 @@
             <button class="btn btn-primary mb-2" type="submit">Поиск</button>
         </form>
     </div>
+    <#if isAdmin>
     <a class="btn btn-primary mb-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
        aria-controls="collapseExample">
         Add new part
@@ -73,6 +74,7 @@
             </form>
         </div>
     </div>
+    </#if>
     <@p.pager url page/>
     <div class="card-columns">
         <#list page.content as part>
@@ -87,8 +89,12 @@
                     <span>Наименование: ${part.name}</span><br>
                     <span>Необходимость для сборки: ${part.need?string("Да", "Нет")}</span><br>
                     <span>Количество: ${part.amount}</span><br>
+                    <#if part.amount == 0>
+                    <span><a class="btn btn-info" href="report/add/${part.id}/${user.id}">Сообшить о наличии</a></span>
+                    </#if>
                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Disabled tooltip">
-                        <button class="btn btn-primary my-3" style="pointer-events: none;" type="button" disabled>Price: ${part.price-(part.price*user.discount)/100}$</button>
+                        <button class="btn btn-primary my-3" style="pointer-events: none;" type="button" disabled>Price: ${part.price}$</button>
+                        <button class="btn btn-primary my-3" style="pointer-events: none;" type="button" disabled>Your price: ${part.price-(part.price*user.discount)/100}$</button>
                     </span>
                 </div>
                 <div class="card-footer text-muted">
