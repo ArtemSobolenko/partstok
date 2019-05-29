@@ -96,6 +96,9 @@
                         <button class="btn btn-primary my-3" style="pointer-events: none;" type="button" disabled>Price: ${part.price}$</button>
                         <button class="btn btn-primary my-3" style="pointer-events: none;" type="button" disabled>Your price: ${part.price-(part.price*user.discount)/100}$</button>
                     </span>
+                    <#if part.amount gt 0>
+                    <span><a class="btn btn-success" href="#">Заказать</a></span>
+                    </#if>
                 </div>
                 <div class="card-footer text-muted">
                     ${part.ownerName}

@@ -29,10 +29,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(userName);
     }
 
-    public boolean addUser(User user){
+    public boolean addUser(User user) {
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
-        if(userFromDb != null){
+        if (userFromDb != null) {
             return false;
         }
 
@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
-        if (!StringUtils.isEmpty(user.getEmail())){
+        if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
                             "Welcome to part stock. Visit link for activation: http://localhost:8080/activate/%s",

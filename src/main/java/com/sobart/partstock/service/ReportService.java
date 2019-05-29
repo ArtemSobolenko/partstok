@@ -1,12 +1,10 @@
 package com.sobart.partstock.service;
 
 import com.sobart.partstock.domain.Report;
-import com.sobart.partstock.repository.ReportRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ReportService {
-
 
     private MailSender mailSender;
 
@@ -14,7 +12,7 @@ public class ReportService {
         this.mailSender = mailSender;
     }
 
-    public void notifyUser(Report report){
+    public void notifyUser(Report report) {
 
         String message = String.format(
                 "Hello, %s! \n" +

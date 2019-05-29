@@ -25,7 +25,11 @@
                     <td>${report.partReport.name}</td>
                     <td>${report.partReport.amount}</td>
                     <td>${report.active?string("Да", "Нет")}</td>
-                    <td><#if report.partReport.amount gt 0 && report.active == true><a href="/report/notify/${report.id}">Notify</a></#if></td>
+                    <td>
+                        <#if report.partReport.amount gt 0 && report.active == true>
+                            <a href="/report/notify/${report.id}">Notify via email</a><brt>
+                            <a href="/report/bot/${report.id}">Notify via telegram</a>
+                        </#if></td>
                     <td><#if report.active == false><a href="/report/delete/${report.id}">Delete</a></#if></td>
                 </tr>
             </#list>

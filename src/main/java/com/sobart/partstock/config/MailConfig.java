@@ -28,8 +28,10 @@ public class MailConfig {
     @Value("${mail.debug}")
     private String debug;
 
-    @Value("${spring.mail.properties.mail.smtp.auth}") private String auth;
-    @Value("${spring.mail.properties.mail.smtp.starttls.enable}") private String enable;
+    @Value("${spring.mail.properties.mail.smtp.auth}")
+    private String auth;
+    @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
+    private String enable;
 
     @Bean
     public JavaMailSender getMailSender() {

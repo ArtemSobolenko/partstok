@@ -25,16 +25,16 @@ public class ReportController {
     }
 
     @GetMapping
-    public String reportList(Model model){
+    public String reportList(Model model) {
         model.addAttribute("reports", reportRepository.findAll());
         return "reportList";
     }
 
     @GetMapping("/add/{part}/{user}")
     public String add(@PathVariable Part part,
-                      @PathVariable User user){
+                      @PathVariable User user) {
 
-        if (reportRepository.findByUserReportAndPartReport(user, part) != null){
+        if (reportRepository.findByUserReportAndPartReport(user, part) != null) {
             return "redirect:/part";
         }
         Report report = new Report(user, part);
@@ -42,19 +42,20 @@ public class ReportController {
         reportRepository.save(report);
         return "redirect:/part";
     }
+
     @GetMapping("/notify/{report}")
     public String notify(
             @PathVariable Report report
-    ){
+    ) {
         report.setActive(false);
         reportRepository.save(report);
-      //  reportService.notifyUser(report);  не забыть раскомментировать!!!
+        //  reportService.notifyUser(report);  не забыть раскомментировать!!!
 
         return "redirect:/report";
     }
 
     @GetMapping("/delete/{report}")
-    public String delete(@PathVariable Report report){
+    public String delete(@PathVariable Report report) {
         reportRepository.delete(report);
         return "redirect:/report";
     }

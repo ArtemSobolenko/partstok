@@ -23,8 +23,6 @@ public class Part {
     @NotNull(message = "You need to input price")
     private BigDecimal price;
 
-   // private String type;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User owner;
@@ -101,11 +99,4 @@ public class Part {
         this.price = price;
     }
 
-//    public String getType() {
-//        return type;
-//    }
-//
-//    public void setType(String type) {
-//        this.type = type;
-//    }
 }

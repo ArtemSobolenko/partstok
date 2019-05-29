@@ -40,7 +40,7 @@ public class User implements UserDetails {
         this.discount = 0;
     }
 
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
 
